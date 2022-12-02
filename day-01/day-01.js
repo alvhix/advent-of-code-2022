@@ -1,12 +1,15 @@
-const path = require('path');
-const filename = path.join(__dirname, '/input.txt');
-const file = require('fs').readFileSync(filename, 'utf-8').split('\n');
+const { getFile } = require('../helper');
 
-function calculateWinnerElf(file) {
+const data = getFile(__dirname)
+  .trim()
+  .split('\n')
+  .map((element) => Number(element));
+
+function calculateWinnerElf(arr) {
   let winner = 0;
   let sum = 0;
 
-  for (line of file) {
+  for (line of arr) {
     if (!line) {
       if (sum > winner) {
         winner = sum;
@@ -15,18 +18,18 @@ function calculateWinnerElf(file) {
       continue;
     }
 
-    sum += parseInt(line);
+    sum += line;
   }
 
   return winner;
 }
 
-function calculateTopThreeWinnersElves(file) {
+function calculateTopThreeWinnersElves(arr) {
   let winners = [0, 0, 0];
   let sum = 0;
   let minValue;
 
-  for (line of file) {
+  for (line of arr) {
     if (!line) {
       minValue = Math.min(...winners);
 
@@ -41,11 +44,11 @@ function calculateTopThreeWinnersElves(file) {
       continue;
     }
 
-    sum += parseInt(line);
+    sum += line;
   }
 
   return winners.reduce((adder, current) => adder + current, 0);
 }
 
-console.log(calculateWinnerElf(file));
-console.log(calculateTopThreeWinnersElves(file));
+console.log(calculateWinnerElf(data));
+console.log(calculateTopThreeWinnersElves(data));
